@@ -121,6 +121,11 @@ int       ffp_start_record(FFPlayer *ffp, const char *file_name);
 int       ffp_stop_record(FFPlayer *ffp);
 int       ffp_record_file(FFPlayer *ffp, AVPacket *packet);
 
+extern int channel_option;
+
+// 设置播放器的音频通道
+void      ffp_set_channel(int channel);
+
 // must be freed with free();
 struct IjkMediaMeta *ffp_get_meta_l(FFPlayer *ffp);
 
