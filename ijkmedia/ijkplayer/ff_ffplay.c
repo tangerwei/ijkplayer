@@ -2484,7 +2484,7 @@ static int synchronize_audio(VideoState *is, int nb_samples)
     return wanted_nb_samples;
 }
 
-static void ffp_set_channel(int option) {
+void ffp_set_channel(int option) {
     channel_option = option;
 }
 
