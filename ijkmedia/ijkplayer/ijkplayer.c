@@ -874,5 +874,5 @@ int ijkmp_stop_record(IjkMediaPlayer *mp)
 
 void ijkmp_set_channel(int channel)
 {
-    ffp_change_channel(channel);
+    ffp_set_channel(channel);
 }
