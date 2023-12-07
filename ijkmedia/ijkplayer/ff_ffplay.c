@@ -128,6 +128,9 @@ static AVPacket flush_pkt;
 // FFP_MERGE: opt_add_vfilter
 #endif
 
+// 声道过滤标志
+int channel_option = 3;
+
 #define IJKVERSION_GET_MAJOR(x)     ((x >> 16) & 0xFF)
 #define IJKVERSION_GET_MINOR(x)     ((x >>  8) & 0xFF)
 #define IJKVERSION_GET_MICRO(x)     ((x      ) & 0xFF)
