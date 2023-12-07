@@ -230,7 +230,7 @@ if [ ! -f "$FF_TOOLCHAIN_TOUCH" ]; then
         --arch ${FF_TOOLCHAIN_ARCH} \
         --api ${FF_ANDROID_PLATFORM} \
         --stl libc++ \
-        --install-dir ${FF_TOOLCHAIN_PATH}
+        --install-dir ${FF_TOOLCHAIN_PATH} \
         --force
     touch $FF_TOOLCHAIN_TOUCH;
 fi
