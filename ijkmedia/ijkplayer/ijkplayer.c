@@ -24,6 +24,7 @@
 #include "ijkplayer.h"
 #include "ijkplayer_internal.h"
 #include "ijkversion.h"
+#include "ff_ffplay.h"
 
 #ifdef WIN32
 #include <Windows.h>
@@ -869,4 +870,9 @@ int ijkmp_stop_record(IjkMediaPlayer *mp)
     MPTRACE("ijkmp_stopRecord()=%d\n", retval);
     pthread_mutex_unlock(&mp->mutex);
     return retval;
+}
+
+void ijkmp_set_channel(int channel)
+{
+    ffp_change_channel(channel);
 }

@@ -129,7 +129,7 @@ static AVPacket flush_pkt;
 #endif
 
 // 声道过滤标志
-int channel_option = 3;
+int channel_option = 1;
 
 #define IJKVERSION_GET_MAJOR(x)     ((x >> 16) & 0xFF)
 #define IJKVERSION_GET_MINOR(x)     ((x >>  8) & 0xFF)

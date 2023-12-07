@@ -238,6 +238,11 @@ int ff_media_player_msg_loop(void* arg)
     return ijkmp_get_property_int64(_nativeMediaPlayer, property, value);
 }
 
+- (void)setAudioChannel:(int)channel
+{
+    ijkmp_set_channel(channel);
+}
+
 - (void)setPlaybackVolume:(float)volume
 {
     if (!_nativeMediaPlayer)
