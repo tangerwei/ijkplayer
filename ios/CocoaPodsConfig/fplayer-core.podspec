@@ -15,7 +15,7 @@ Pod::Spec.new do |spec|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  spec.name         = "fplayer-core"
+  spec.name         = "dfplayer-core"
   spec.version      = "1.0.4"
   spec.summary      = "fplayer core project"
 
@@ -29,7 +29,7 @@ Pod::Spec.new do |spec|
   fplayer core with iOS
                    DESC
 
-  spec.homepage     = "https://github.com/FlutterPlayer/ijkplayer"
+  spec.homepage     = "https://github.com/tangerwei/ijkplayer"
   # spec.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -89,7 +89,7 @@ Pod::Spec.new do |spec|
   #
 
   # spec.source       = { :git => "http://EXAMPLE/fplayer-core.git", :tag => "#{spec.version}" }
-  spec.source = { :http => "https://github.com/FlutterPlayer/ijkplayer/releases/download/#{spec.version}/IJKMediaPlayer.tar.gz" }
+  spec.source = { :http => "https://github.com/tangerwei/ijkplayer/releases/download/#{spec.version}/IJKMediaPlayer.tar.gz" }
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
