@@ -128,9 +128,6 @@ static AVPacket flush_pkt;
 // FFP_MERGE: opt_add_vfilter
 #endif
 
-// 声道过滤标志
-int channel_option = 1;
-
 #define IJKVERSION_GET_MAJOR(x)     ((x >> 16) & 0xFF)
 #define IJKVERSION_GET_MINOR(x)     ((x >>  8) & 0xFF)
 #define IJKVERSION_GET_MICRO(x)     ((x      ) & 0xFF)
@@ -2487,10 +2484,6 @@ static int synchronize_audio(VideoState *is, int nb_samples)
     return wanted_nb_samples;
 }
 
-void ffp_set_channel(int option) {
-    channel_option = option;
-}
-
 /**
  * Decode one audio frame and return its uncompressed size.
  *
@@ -2621,18 +2614,6 @@ reload:
         is->audio_buf = is->audio_buf1;
         int bytes_per_sample = av_get_bytes_per_sample(is->audio_tgt.fmt);
         resampled_data_size = len2 * is->audio_tgt.channels * bytes_per_sample;
-        // 假设 channel_option 是一个全局变量，1 表示左声道，2 表示右声道
-        if (channel_option == 1) {
-            // 复制左声道到右声道
-            for (int i = 0; i < len2; i++) {
-                is->audio_buf1[2 * i + 1] = is->audio_buf1[2 * i];
-            }
-        } else if (channel_option == 2) {
-            // 复制右声道到左声道
-            for (int i = 0; i < len2; i++) {
-                is->audio_buf1[2 * i] = is->audio_buf1[2 * i + 1];
-            }
-        }
 #if defined(__ANDROID__)
         if (ffp->soundtouch_enable && ffp->pf_playback_rate != 1.0f && !is->abort_request) {
             av_fast_malloc(&is->audio_new_buf, &is->audio_new_buf_size, out_size * translate_time);
