@@ -191,8 +191,6 @@ void            ijkmp_shutdown(IjkMediaPlayer *mp);
 
 void            ijkmp_inc_ref(IjkMediaPlayer *mp);
 
-void            ijkmp_set_channel(int channel);
-
 // call close at last release, also free memory
 // NOTE: ijkmp_dec_ref may block thread
 void            ijkmp_dec_ref(IjkMediaPlayer *mp);

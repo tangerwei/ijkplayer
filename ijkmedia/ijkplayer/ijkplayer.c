@@ -871,8 +871,3 @@ int ijkmp_stop_record(IjkMediaPlayer *mp)
     pthread_mutex_unlock(&mp->mutex);
     return retval;
 }
-
-void ijkmp_set_channel(int channel)
-{
-    ffp_set_channel(channel);
-}

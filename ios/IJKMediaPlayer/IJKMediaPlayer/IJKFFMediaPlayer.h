@@ -89,8 +89,6 @@ typedef void(^OnSnapshotBlock) (UIImage* __nullable image , NSError* __nullable 
 - (void) setPlaybackVolume:(float)volume;
 - (float) playbackVolume;
 
-- (void) setAudioChannel:(int) channel;
-
 - (void) setupCVPixelBufferView:(id<IJKCVPBViewProtocol>) view;
 
 - (void) setStreamSelected:(int) stream selected:(BOOL) selected;
