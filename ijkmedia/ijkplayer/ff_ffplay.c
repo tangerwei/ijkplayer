@@ -2033,7 +2033,7 @@ static int audio_thread(void *arg)
 
     do {
         ffp_audio_statistic_l(ffp);
-        if ((got_frame = decoder_decode_frame(ffp, &is->auddec, frame, NULL)) < 0)
+        if ((got_frame = (ffp, &is->auddec, frame, NULL)) < 0)
             goto the_end;
 
         if (got_frame) {
@@ -2598,6 +2598,25 @@ reload:
             }
         }
         av_fast_malloc(&is->audio_buf1, &is->audio_buf1_size, out_size);
+
+        // 确保音频格式是立体声并且样本格式为 16 位整数
+        if (af->frame->channels == 2 && af->frame->format == AV_SAMPLE_FMT_S16) {
+            // 输入声道数据
+            const int16_t *input_left_channel = (const int16_t *)in[0];
+
+            // 输出声道数据，假设 audio_buf1 已经分配
+            int16_t *output_left_channel = (int16_t *)(*out);
+            int16_t *output_right_channel = output_left_channel + 1; // 立体声右声道
+
+            // 复制左声道到输出的左右声道
+            for (int i = 0; i < out_count; ++i) {
+                *output_left_channel = input_left_channel[i];
+                *output_right_channel = input_left_channel[i];
+
+                output_left_channel += 2; // 移动到下一对样本
+                output_right_channel += 2;
+            }
+        }
 
         if (!is->audio_buf1)
             return AVERROR(ENOMEM);
