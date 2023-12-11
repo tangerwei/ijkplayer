@@ -2599,26 +2599,39 @@ reload:
         }
         av_fast_malloc(&is->audio_buf1, &is->audio_buf1_size, out_size);
 
-        if (af->frame->channels == 2 && af->frame->format == AV_SAMPLE_FMT_S16) {
-            // 输入声道数据
-            const int16_t *input_left_channel = (const int16_t *)in[0];
-            // 输出声道数据，假设 audio_buf1 已经分配
-            int16_t *output_left_channel = (int16_t *)(*out);
-            int16_t *output_right_channel = output_left_channel + 1; // 立体声右声道
-
-            // 复制左声道到输出的左右声道
-            for (int i = 0; i < out_count; ++i) {
-                *output_left_channel = input_left_channel[i];
-                *output_right_channel = input_left_channel[i];
-
-                output_left_channel += 2; // 移动到下一对样本
-                output_right_channel += 2;
-            }
-        }
-
         if (!is->audio_buf1)
             return AVERROR(ENOMEM);
-        len2 = swr_convert(is->swr_ctx, out, out_count, in, af->frame->nb_samples);
+        // 声道处理
+        if (af->frame->channels == 2 && af->frame->format == AV_SAMPLE_FMT_S16) {
+            // 假设每个样本是 16 位整数（int16_t）格式，且音频是立体声
+            int sample_count = af->frame->nb_samples;
+            int channel_count = 2;
+            int buffer_size = sample_count * channel_count * sizeof(int16_t);
+
+            // 分配新的输入缓冲区
+            int16_t *new_in_buffer = av_malloc(buffer_size);
+            if (!new_in_buffer) {
+                return AVERROR(ENOMEM);
+            }
+
+            // 输入声道数据
+            const int16_t *input_left_channel = (const int16_t *)in[0];
+
+            // 复制左声道到新输入缓冲区的左右声道
+            for (int i = 0; i < sample_count; ++i) {
+                new_in_buffer[i * 2] = input_left_channel[i];     // 新缓冲区左声道
+                new_in_buffer[i * 2 + 1] = input_left_channel[i]; // 新缓冲区右声道
+            }
+
+            // 使用新缓冲区作为 swr_convert 的输入
+            const uint8_t *new_in[1] = {(const uint8_t *)new_in_buffer};
+            len2 = swr_convert(is->swr_ctx, out, out_count, new_in, sample_count);
+
+            // 清理
+            av_free(new_in_buffer);
+        }else{
+            len2 = swr_convert(is->swr_ctx, out, out_count, in, af->frame->nb_samples);
+        }
         if (len2 < 0) {
             av_log(NULL, AV_LOG_ERROR, "swr_convert() failed\n");
             return -1;
